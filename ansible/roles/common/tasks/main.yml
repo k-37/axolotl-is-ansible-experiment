@@ -1,0 +1,3 @@
+---
+- name: "Say hello {{ your_name_is }}"
+  ansible.builtin.shell: echo Hello {{ your_name_is }}!
