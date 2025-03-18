@@ -1,3 +1,4 @@
 ---
-- name: "Say hello {{ your_name_is }}"
-  ansible.builtin.shell: echo Hello {{ your_name_is }}!
+- name: "Say hello to the {{ your_name_is }}"
+  ansible.builtin.debug:
+    msg: Hello {{ your_name_is }}!
