@@ -20,7 +20,18 @@ Login to the server and install Ansible:
 
 Copy contents of the `./ansible` folder from the current repository to `${HOME}/ansible` on the server.
 
-On the server execute:
+On the server execute command:
 
     cd "${HOME}/ansible/playbooks"
+
+Verify inventory:
+
+    ansible-inventory --list
+
+Ping the `axolotl` host in the inventory:
+
+    ansible axolotl -m ping --ask-pass
+
+Run playbook:
+
     ansible-playbook --ask-pass main.yml

@@ -1,3 +1,4 @@
-- hosts: axolotl
+- name: Getting started
+  hosts: axolotl
   roles:
     - common
