@@ -1,0 +1,7 @@
+---
+ansible-navigator:
+  execution-environment:
+    volume-mounts:
+      - src: "$HOME/ansible"
+        dest: "$HOME/ansible"
+        options: "Z"
