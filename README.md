@@ -13,7 +13,7 @@ This repository is used to practice [Ansible](https://en.wikipedia.org/wiki/Ansi
 
 # Getting started
 
-We can install and use Ansible as an APT package or use [Execution Environments](https://docs.ansible.com/ansible/latest/getting_started_ee/index.html) as an alternative approach.
+We can install and use Ansible as an APT package, with [`pipx`](https://github.com/pypa/pipx#overview-what-is-pipx) or use [Execution Environments](https://docs.ansible.com/ansible/latest/getting_started_ee/index.html) as an alternative approach.
 
 ## Option 1. Install and use Ansible as an APT package
 
@@ -21,6 +21,8 @@ Login to the remote server and install Ansible:
 
     sudo apt-get update
     sudo apt-get install ansible sshpass rsync
+
+### Usage with APT
 
 Copy contents of the [`./ansible`](ansible) folder from the current repository to `${HOME}/ansible` on the remote server or use [auto sync](doc/auto_sync.md).
 
@@ -40,12 +42,36 @@ Run playbook:
 
     ansible-playbook --ask-pass main.yml
 
-## Option 2. Use Execution Environment (EE)
+## Option 2. Install and use Ansible with `pipx`
+
+Login to the remote server and install `pipx`:
+
+    sudo apt-get install rsync sshpass pipx
+
+Install a specific version of `ansible-core`:
+
+    pipx install ansible-core==2.14.8
+
+Update `PATH` environment variable for the currently logged in user:
+
+    pipx ensurepath
+
+Open a new terminal or re-login for the `PATH` changes to take effect.
+
+Verify your environment with the following command:
+
+    ansible --version
+
+### Usage with `pipx`
+
+Usage is the same as when [using Ansible with APT](#usage-with-apt).
+
+## Option 3. Use Execution Environment (EE)
 
 Install dependencies on the remote server:
 
     sudo apt-get update
-    sudo apt-get install rsync sshpass podman python3 python3-pip pipx
+    sudo apt-get install rsync sshpass podman pipx
 
 Install `ansible-navigator` and `ansible-builder`:
 
@@ -62,6 +88,8 @@ Verify your environment with the following commands:
 
     ansible-navigator --version
     ansible-builder --version
+
+### Usage with EE
 
 Copy contents of the [`./ansible`](ansible) folder from the current repository to `${HOME}/ansible` on the remote server or use [auto sync](doc/auto_sync.md).
 
