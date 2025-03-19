@@ -6,7 +6,10 @@ This repository is used to practice [Ansible](https://en.wikipedia.org/wiki/Ansi
 
 # Requirements
 
-- Server with minimal installation of [Debian 12](https://www.debian.org/) and with [SSH enabled](https://phoenixnap.com/kb/how-to-enable-ssh-on-debian).
+- Server with minimal installation of [Debian 12](https://www.debian.org/) and with [SSH enabled](https://phoenixnap.com/kb/how-to-enable-ssh-on-debian). In this project we will refer to it as **remote server**, it will be used as both Ansible control node and managed host.
+
+> [!NOTE]
+> Ansible is not usually installed on the same host which is configured by it. This approach is used so we can do everything by using a single server with minimal dependencies on our development machine.
 
 # Getting started
 
@@ -14,19 +17,14 @@ We can install and use Ansible as an APT package or use [Execution Environments]
 
 ## Option 1. Install and use Ansible as an APT package
 
-Login to the server and install Ansible:
+Login to the remote server and install Ansible:
 
     sudo apt-get update
     sudo apt-get install ansible sshpass rsync
 
-> [!NOTE]
-> Ansible is not usually installed on the same host which is configured by it. This approach is used so we can do everything by using a single server.
+Copy contents of the [`./ansible`](ansible) folder from the current repository to `${HOME}/ansible` on the remote server or use [auto sync](doc/auto_sync.md).
 
-Copy contents of the `./ansible` folder from the current repository to `${HOME}/ansible` on the server, this command will auto sync changes (replace all `<...>` with appropriate values for your systems):
-
-    while inorifywait -r <DIRECTORY_CONTAINING_CURRENT_REPOSITORY>/ansible/*; do sshpass -p '<PASSWORD_FOR_SSH>' rsync -v --compress --recursive --times --delete <DIRECTORY_CONTAINING_CURRENT_REPOSITORY>/ansible <[USER@]HOST:/home/USER>; date; done
-
-On the server execute command:
+On the remote server execute command:
 
     cd "${HOME}/ansible/playbooks"
 
@@ -44,7 +42,7 @@ Run playbook:
 
 ## Option 2. Use Execution Environment (EE)
 
-Install dependencies:
+Install dependencies on the remote server:
 
     sudo apt-get update
     sudo apt-get install rsync sshpass podman python3 python3-pip pipx
@@ -54,7 +52,7 @@ Install `ansible-navigator` and `ansible-builder`:
     pipx install ansible-navigator
     pipx install ansible-builder
 
-Update your `PATH` environment variable:
+Update `PATH` environment variable for the currently logged in user:
 
     pipx ensurepath
 
@@ -65,11 +63,9 @@ Verify your environment with the following commands:
     ansible-navigator --version
     ansible-builder --version
 
-Copy contents of the `./ansible` folder from the current repository to `${HOME}/ansible` on the server, this command will auto sync changes (replace all `<...>` with appropriate values for your systems):
+Copy contents of the [`./ansible`](ansible) folder from the current repository to `${HOME}/ansible` on the remote server or use [auto sync](doc/auto_sync.md).
 
-    while inorifywait -r <DIRECTORY_CONTAINING_CURRENT_REPOSITORY>/ansible/*; do sshpass -p '<PASSWORD_FOR_SSH>' rsync -v --compress --recursive --times --delete <DIRECTORY_CONTAINING_CURRENT_REPOSITORY>/ansible <[USER@]HOST:/home/USER>; date; done
-
-On the server execute command:
+On the remote server execute command:
 
     cd "${HOME}/ansible/playbooks"
 
@@ -77,8 +73,12 @@ Build an EE container image called `fedora_ee` (it requires ~25 GiB of free spac
 
     ansible-builder build --tag fedora_ee
 
-In `./ansible/inventories/hosts` set IP address of the managed host which is accessible outside of the container (i.e. not `127.0.0.1` or `localhost`).
+In [`./ansible/inventories/hosts`](ansible/inventories/hosts) set IP address of the remote server which is accessible outside of the container (i.e. not `127.0.0.1` or `localhost`).
 
 Run the playbook inside the `fedora_ee` EE (note that `<REMOTE_USER>` must be replaced in the command):
 
     ansible-navigator run main.yml --execution-environment-image fedora_ee --mode stdout --pull-policy missing --enable-prompts --ask-pass -u <REMOTE_USER>
+
+# Documentation
+
+- [Auto sync](doc/auto_sync.md).
