@@ -1,27 +1,21 @@
 ---
-- name: Create additional system users with SSH access
+- name: Create additional system user '{{ user }}' with SSH access
   ansible.builtin.user:
-    name: "{{ item }}"
+    name: "{{ user }}"
     state: present
     shell: /bin/bash
     generate_ssh_key: true
     ssh_key_bits: 2048
     ssh_key_file: .ssh/id_rsa
-  loop:
-    "{{ system_additional_users }}"
 
-- name: Set authorized key for users own public SSH key
-  ansible.builtin.shell: cat /home/{{ item }}/.ssh/id_rsa.pub > /home/{{ item }}/.ssh/authorized_keys
+- name: Set authorized key for user's own public SSH key for '{{ user }}'
+  ansible.builtin.shell: cat /home/{{ user }}/.ssh/id_rsa.pub > /home/{{ user }}/.ssh/authorized_keys
   args:
-    creates: /home/{{ item }}/.ssh/authorized_keys
-  loop:
-    "{{ system_additional_users }}"
+    creates: /home/{{ user }}/.ssh/authorized_keys
 
-- name: Set permissions on SSH authorized_keys
+- name: Set permissions on SSH authorized_keys for '{{ user }}'
   ansible.builtin.file:
-    dest: /home/{{ item }}/.ssh/authorized_keys
-    owner: "{{ item }}"
-    group: "{{ item }}"
+    dest: /home/{{ user }}/.ssh/authorized_keys
+    owner: "{{ user }}"
+    group: "{{ user }}"
     mode: u=rw,go=
-  loop:
-    "{{ system_additional_users }}"

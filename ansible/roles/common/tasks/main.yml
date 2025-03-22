@@ -4,5 +4,9 @@
     file: apt.yml
 
 - name: Configure system users
-  ansible.builtin.import_tasks:
+  ansible.builtin.include_tasks:
     file: user.yml
+  vars:
+    user: "{{ item }}"
+  loop:
+    "{{ system_additional_users }}"
