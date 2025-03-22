@@ -2,3 +2,7 @@
 - name: Configure APT
   ansible.builtin.import_tasks:
     file: apt.yml
+
+- name: Configure system users
+  ansible.builtin.import_tasks:
+    file: user.yml
