@@ -1,4 +1,4 @@
 ---
-- name: "Say hello to the {{ your_name_is }}"
-  ansible.builtin.debug:
-    msg: Hello {{ your_name_is }}!
+- name: Configure APT
+  ansible.builtin.import_tasks:
+    file: apt.yml

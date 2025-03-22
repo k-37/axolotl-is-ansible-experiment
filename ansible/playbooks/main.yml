@@ -1,4 +1,4 @@
-- name: Getting started
+- name: Common configuration
   hosts: axolotl
   roles:
     - common
