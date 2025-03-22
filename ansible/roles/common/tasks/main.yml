@@ -10,3 +10,7 @@
     user: "{{ item }}"
   loop:
     "{{ system_additional_users }}"
+
+- name: Configure firewall
+  ansible.builtin.import_tasks:
+    file: ufw.yml

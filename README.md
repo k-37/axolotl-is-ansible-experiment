@@ -30,17 +30,21 @@ On the remote server execute command:
 
     cd "${HOME}/ansible/playbooks"
 
+Install dependencies:
+
+    ansible-galaxy collection install -r requirements.yml
+
 Verify inventory:
 
     ansible-inventory --list
 
 Ping the `axolotl` host in the inventory:
 
-    ansible axolotl -m ping --ask-pass
+    ansible axolotl -m ping --ask-pass --ask-become-pass
 
 Run playbook:
 
-    ansible-playbook --ask-pass main.yml
+    ansible-playbook --ask-pass --ask-become-pass main.yml
 
 ## Option 2. Install and use Ansible with `pipx`
 
@@ -97,15 +101,15 @@ On the remote server execute command:
 
     cd "${HOME}/ansible/playbooks"
 
-Build an EE container image called `fedora_ee` (it requires ~25 GiB of free space on `/home` partition):
+Build an EE container image called `fedora_ee` (**NOTICE**: it requires ~25 GiB of free space on `/home` partition):
 
     ansible-builder build --tag fedora_ee
 
 In [`./ansible/inventories/hosts`](ansible/inventories/hosts) set IP address of the remote server which is accessible outside of the container (i.e. not `127.0.0.1` or `localhost`).
 
-Run the playbook inside the `fedora_ee` EE (note that `<REMOTE_USER>` must be replaced in the command):
+Run the playbook inside the `fedora_ee` EE (**NOTICE**: `<REMOTE_USER>` must be replaced in the command):
 
-    ansible-navigator run main.yml --execution-environment-image fedora_ee --mode stdout --pull-policy missing --enable-prompts --ask-pass -u <REMOTE_USER>
+    ansible-navigator run main.yml --execution-environment-image fedora_ee --mode stdout --pull-policy missing --enable-prompts --ask-pass --ask-become-pass -u <REMOTE_USER>
 
 # Documentation
 
