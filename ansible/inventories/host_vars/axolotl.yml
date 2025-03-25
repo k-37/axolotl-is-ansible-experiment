@@ -5,6 +5,18 @@
 
 apt_package_ufw: ufw
 
+apt_package_php: php-fpm
+apt_packages_php_extensions:
+  - php-mysql
+  - php-curl
+  - php-gd
+  - php-mbstring
+  - php-xml
+  - php-xmlrpc
+  - php-soap
+  - php-intl
+  - php-zip
+
 ##########
 # System #
 ##########

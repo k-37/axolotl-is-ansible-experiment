@@ -2,3 +2,4 @@
   hosts: axolotl
   roles:
     - common
+    - php

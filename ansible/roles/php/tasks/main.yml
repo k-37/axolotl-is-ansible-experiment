@@ -1,0 +1,12 @@
+---
+- name: Install PHP APT package
+  ansible.builtin.apt:
+    name: "{{ apt_package_php }}"
+    update_cache: true
+    state: present
+
+- name: Install PHP extensions with APT
+  ansible.builtin.apt:
+    name: "{{ apt_packages_php_extensions }}"
+    update_cache: true
+    state: present
