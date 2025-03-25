@@ -16,3 +16,7 @@ apt_packages_php_extensions:
 apt_package_apache: apache2
 apt_packages_apache_modules:
   - libapache2-mod-fcgid
+
+apt_package_mariadb: mariadb-server
+apt_packages_mariadb_extra:
+  - python3-pymysql

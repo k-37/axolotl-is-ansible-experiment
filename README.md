@@ -116,6 +116,8 @@ Run the playbook inside the `fedora_ee` EE (**NOTICE**: `<REMOTE_USER>` must be 
 
 # Usage
 
+## Web server
+
 After executing Ansible playbook on development machine in `sudo vi /etc/hosts` file add:
 
     <IP_ADDRESS_OF_REMOTE_SERVER> wp.example.com
@@ -123,6 +125,18 @@ After executing Ansible playbook on development machine in `sudo vi /etc/hosts` 
 In [Mozilla Firefox](https://www.mozilla.org/firefox/) open [https://wp.example.com/](https://wp.example.com/).
 
 Self signed certificate warning and `403 Forbidden` HTTP response is expected for now, in later step we will install [WordPress](https://en.wikipedia.org/wiki/WordPress) for that virtual host.
+
+## Database
+
+To connect to [MariaDB](https://en.wikipedia.org/wiki/MariaDB) on the remote server execute command:
+
+    mariadb -u root -p
+
+Password is stored in [`./ansible/inventories/host_vars/axolotl/003-mariadb.yml`](ansible/inventories/host_vars/axolotl/003-mariadb.yml)
+
+After that, to list all databases:
+
+    SHOW DATABASES;
 
 # Documentation
 

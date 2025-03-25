@@ -1,0 +1,39 @@
+---
+- name: Install MariaDB APT package
+  ansible.builtin.apt:
+    name: "{{ apt_package_mariadb }}"
+    update_cache: true
+    state: present
+
+- name: Install extra packages for MariaDB with APT
+  ansible.builtin.apt:
+    name: "{{ apt_packages_mariadb_extra }}"
+    update_cache: true
+    state: present
+
+- name: Set user-specific options
+  ansible.builtin.template:
+    src: templates/dot.my.cnf.j2
+    dest: /root/.my.cnf
+
+- name: Set the 'root' password
+  community.mysql.mysql_user:
+    name: root
+    password: "{{ mariadb_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    state: present
+
+- name: Remove all anonymous user accounts
+  community.mysql.mysql_user:
+    name: ''
+    host_all: true
+    state: absent
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+
+- name: Remove the MariaDB 'test' database
+  community.mysql.mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
