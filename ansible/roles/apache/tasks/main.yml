@@ -1,0 +1,55 @@
+---
+- name: Install Apache APT package
+  ansible.builtin.apt:
+    name: "{{ apt_package_apache }}"
+    update_cache: true
+    state: present
+
+- name: Install Apache modules with APT
+  ansible.builtin.apt:
+    name: "{{ apt_packages_apache_modules }}"
+    update_cache: true
+    state: present
+
+- name: Create document root
+  ansible.builtin.file:
+    path: /var/www/{{ item.name }}
+    state: directory
+    owner: "{{ apache_owner }}"
+    group: "{{ apache_group }}"
+    mode: 0755
+  with_items: "{{ apache_virtual_hosts_https }}"
+
+- name: Create configuration for HTTPS VirtualHosts
+  ansible.builtin.template:
+    src: templates/virtual_host_https.conf.j2
+    dest: /etc/apache2/sites-available/{{ item.name }}.conf
+  with_items: "{{ apache_virtual_hosts_https }}"
+  notify: Reload Apache
+
+- name: Disable modules
+  ansible.builtin.shell: /usr/sbin/a2dismod {{ item }}
+  notify: Reload Apache
+  loop:
+    "{{ apache_disabled_modules }}"
+
+- name: Enable modules
+  ansible.builtin.shell: /usr/sbin/a2enmod {{ item }}
+  notify: Reload Apache
+  loop:
+    "{{ apache_enabled_modules }}"
+
+- name: Enable configuration files
+  ansible.builtin.shell: /usr/sbin/a2enconf {{ item }}
+  notify: Reload Apache
+  loop:
+    "{{ apache_enabled_configuration_files }}"
+
+- name: Enable HTTPS hosts
+  ansible.builtin.shell: /usr/sbin/a2ensite {{ item.name }}.conf
+  with_items: "{{ apache_virtual_hosts_https }}"
+  notify: Reload Apache
+
+- name: Disable default Apache site
+  ansible.builtin.shell: /usr/sbin/a2dissite 000-default.conf
+  notify: Restart Apache

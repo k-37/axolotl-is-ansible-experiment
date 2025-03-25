@@ -11,6 +11,9 @@ This repository is used to practice [Ansible](https://en.wikipedia.org/wiki/Ansi
 > [!NOTE]
 > Ansible is not usually installed on the same host which is configured by it. This approach is used so we can do everything by using a single server with minimal dependencies on our development machine.
 
+> [!NOTE]
+> The Ansible project is developed on [Debian 12](https://www.debian.org/) if you use another OS have that in mind if something doesn't work as expected.
+
 # Getting started
 
 We can install and use Ansible as an APT package, with [`pipx`](https://github.com/pypa/pipx#overview-what-is-pipx) or use [Execution Environments](https://docs.ansible.com/ansible/latest/getting_started_ee/index.html) as an alternative approach.
@@ -110,6 +113,16 @@ In [`./ansible/inventories/hosts.yml`](ansible/inventories/hosts.yml) set IP add
 Run the playbook inside the `fedora_ee` EE (**NOTICE**: `<REMOTE_USER>` must be replaced in the command):
 
     ansible-navigator run main.yml --execution-environment-image fedora_ee --mode stdout --pull-policy missing --enable-prompts --ask-pass --ask-become-pass -u <REMOTE_USER>
+
+# Usage
+
+After executing Ansible playbook on development machine in `sudo vi /etc/hosts` file add:
+
+    <IP_ADDRESS_OF_REMOTE_SERVER> wp.example.com
+
+In [Mozilla Firefox](https://www.mozilla.org/firefox/) open [https://wp.example.com/](https://wp.example.com/).
+
+Self signed certificate warning and `403 Forbidden` HTTP response is expected for now, in later step we will install [WordPress](https://en.wikipedia.org/wiki/WordPress) for that virtual host.
 
 # Documentation
 
