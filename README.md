@@ -105,7 +105,7 @@ Build an EE container image called `fedora_ee` (**NOTICE**: it requires ~25 GiB 
 
     ansible-builder build --tag fedora_ee
 
-In [`./ansible/inventories/hosts`](ansible/inventories/hosts) set IP address of the remote server which is accessible outside of the container (i.e. not `127.0.0.1` or `localhost`).
+In [`./ansible/inventories/hosts.yml`](ansible/inventories/hosts.yml) set IP address of the remote server, by modifying `ansible_host` variable, which is accessible outside of the container (i.e. not `127.0.0.1` or `localhost`).
 
 Run the playbook inside the `fedora_ee` EE (**NOTICE**: `<REMOTE_USER>` must be replaced in the command):
 
