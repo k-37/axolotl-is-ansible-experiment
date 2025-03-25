@@ -2,6 +2,14 @@
   hosts: axolotl
   roles:
     - common
+
+- name: PHP and Apache
+  hosts: axolotl
+  roles:
     - php
     - apache
+
+- name: MariaDB
+  hosts: axolotl
+  roles:
     - mariadb
