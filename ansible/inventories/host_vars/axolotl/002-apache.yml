@@ -1,0 +1,18 @@
+---
+apache_service_name: apache2
+apache_owner: www-data
+apache_group: "{{ apache_owner }}"
+
+apache_disabled_modules:
+  - mpm_prefork
+
+apache_enabled_modules:
+  - rewrite
+  - ssl
+  - mpm_event
+
+apache_enabled_configuration_files:
+  - php8.2-fpm
+
+apache_virtual_hosts_https:
+  - name: wp.example.com

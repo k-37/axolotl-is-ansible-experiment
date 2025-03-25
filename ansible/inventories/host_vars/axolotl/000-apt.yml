@@ -1,0 +1,18 @@
+---
+apt_package_ufw: ufw
+
+apt_package_php: php-fpm
+apt_packages_php_extensions:
+  - php-mysql
+  - php-curl
+  - php-gd
+  - php-mbstring
+  - php-xml
+  - php-xmlrpc
+  - php-soap
+  - php-intl
+  - php-zip
+
+apt_package_apache: apache2
+apt_packages_apache_modules:
+  - libapache2-mod-fcgid
