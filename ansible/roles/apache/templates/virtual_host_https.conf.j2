@@ -3,7 +3,7 @@
 
     ServerName {{ item.name }}
 
-    DocumentRoot /var/www/{{ item.name }}/
+    DocumentRoot /var/www/{{ item.name }}/{{ item.document_root_sub_path if (item.document_root_sub_path | default('', true) | trim != '') else '' }}
 
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined

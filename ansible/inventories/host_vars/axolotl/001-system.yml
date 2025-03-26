@@ -1,5 +1,5 @@
 ---
 system_additional_users:
-  - user1
+  - "{{ wordpress_system_user }}"
   - user2
   - user3

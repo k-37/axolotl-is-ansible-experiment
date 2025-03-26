@@ -13,3 +13,8 @@
   hosts: axolotl
   roles:
     - mariadb
+
+- name: WordPress
+  hosts: axolotl
+  roles:
+    - wordpress

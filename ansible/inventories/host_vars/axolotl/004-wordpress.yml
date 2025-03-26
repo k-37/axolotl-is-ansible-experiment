@@ -1,0 +1,6 @@
+---
+wordpress_system_user: user1
+wordpress_system_group: "{{ wordpress_system_user }}"
+wordpress_host_name: wp.example.com
+wordpress_document_root_sub_path: wordpress
+wordpress_mariadb_db: wordpress

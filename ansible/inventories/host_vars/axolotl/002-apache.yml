@@ -10,9 +10,11 @@ apache_enabled_modules:
   - rewrite
   - ssl
   - mpm_event
+  - proxy_fcgi
 
 apache_enabled_configuration_files:
   - php8.2-fpm
 
 apache_virtual_hosts_https:
-  - name: wp.example.com
+  - name: "{{ wordpress_host_name }}"
+    document_root_sub_path: "{{ wordpress_document_root_sub_path }}"

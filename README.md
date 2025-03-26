@@ -37,12 +37,12 @@ Install dependencies:
 
     ansible-galaxy collection install -r requirements.yml
 
-Verify inventory:
-
-    ansible-inventory --list
-
 > [!NOTE]
 > On the next steps, after entering your `SSH password` and `BECOME password` for the remote server, you will be asked for `Vault password`, it is `axolotl`.
+
+Verify inventory:
+
+    ansible-inventory --ask-vault-pass --list
 
 Ping the `axolotl` host in the inventory:
 
@@ -128,9 +128,10 @@ After executing Ansible playbook on remote server, on development machine in `su
 
     <IP_ADDRESS_OF_REMOTE_SERVER> wp.example.com
 
-In [Mozilla Firefox](https://www.mozilla.org/firefox/) open [https://wp.example.com/](https://wp.example.com/).
+In [Mozilla Firefox](https://www.mozilla.org/firefox/) open URL [https://wp.example.com/](https://wp.example.com/) which hosts local instance of [WordPress](https://en.wikipedia.org/wiki/WordPress).
 
-Self signed certificate warning and `403 Forbidden` HTTP response is expected for now, in later step we will install [WordPress](https://en.wikipedia.org/wiki/WordPress) for that virtual host.
+> [!NOTE]
+> Warning for self-signed certificate is expected.
 
 ## Database
 

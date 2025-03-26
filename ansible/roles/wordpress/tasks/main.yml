@@ -1,0 +1,36 @@
+---
+- name: Create database for WordPress in MariaDB
+  community.mysql.mysql_db:
+    name: "{{ wordpress_mariadb_db }}"
+    state: present
+    login_user: root
+    login_password: "{{ secret_mariadb_root_password }}"
+
+- name: Create user for WordPress in MariaDB
+  community.mysql.mysql_user:
+    name: "{{ secret_wordpress_mariadb_user }}"
+    password: "{{ secret_wordpress_mariadb_password }}"
+    priv: "{{ wordpress_mariadb_db }}.*:ALL"
+    state: present
+    login_user: root
+    login_password: "{{ secret_mariadb_root_password }}"
+
+- name: Download and unpack latest WordPress
+  ansible.builtin.unarchive:
+    src: https://wordpress.org/latest.tar.gz
+    dest: /var/www/{{ wordpress_host_name }}
+    remote_src: true
+    creates: /var/www/{{ wordpress_host_name }}/{{ wordpress_document_root_sub_path }}
+
+- name: Set wp-config.php
+  ansible.builtin.template:
+    src: templates/wp-config.php.j2
+    dest: /var/www/{{ wordpress_host_name }}/{{ wordpress_document_root_sub_path }}/wp-config.php
+
+- name: Set ownership and permissions for WordPress system user
+  ansible.builtin.file:
+    dest: /var/www/{{ wordpress_host_name }}/{{ wordpress_document_root_sub_path }}
+    recurse: true
+    owner: "{{ apache_owner }}"
+    group: "{{ wordpress_system_group }}"
+    mode: ug=rwX,o=
