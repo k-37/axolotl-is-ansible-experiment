@@ -19,7 +19,7 @@
 - name: Set the 'root' password
   community.mysql.mysql_user:
     name: root
-    password: "{{ mariadb_root_password }}"
+    password: "{{ secret_mariadb_root_password }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
     state: present
 
@@ -29,11 +29,11 @@
     host_all: true
     state: absent
     login_user: root
-    login_password: "{{ mariadb_root_password }}"
+    login_password: "{{ secret_mariadb_root_password }}"
 
 - name: Remove the MariaDB 'test' database
   community.mysql.mysql_db:
     name: test
     state: absent
     login_user: root
-    login_password: "{{ mariadb_root_password }}"
+    login_password: "{{ secret_mariadb_root_password }}"

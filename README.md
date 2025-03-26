@@ -41,13 +41,16 @@ Verify inventory:
 
     ansible-inventory --list
 
+> [!NOTE]
+> On the next steps, after entering your `SSH password` and `BECOME password` for the remote server, you will be asked for `Vault password`, it is `axolotl`.
+
 Ping the `axolotl` host in the inventory:
 
-    ansible axolotl -m ping --ask-pass --ask-become-pass
+    ansible axolotl -m ping --ask-pass --ask-become-pass --ask-vault-pass
 
 Run playbook:
 
-    ansible-playbook --ask-pass --ask-become-pass main.yml
+    ansible-playbook --ask-pass --ask-become-pass --ask-vault-pass main.yml
 
 ## Option 2. Install and use Ansible with `pipx`
 
@@ -110,9 +113,12 @@ Build an EE container image called `fedora_ee` (**NOTICE**: it requires ~25 GiB 
 
 In [`./ansible/inventories/hosts.yml`](ansible/inventories/hosts.yml) set IP address of the remote server, by modifying `ansible_host` variable, which is accessible outside of the container (i.e. not `127.0.0.1` or `localhost`).
 
+> [!NOTE]
+> On the next step, after entering your `SSH password` and `BECOME password` for the remote server, you will be asked for `Vault password`, it is `axolotl`.
+
 Run the playbook inside the `fedora_ee` EE (**NOTICE**: `<REMOTE_USER>` must be replaced in the command):
 
-    ansible-navigator run main.yml --execution-environment-image fedora_ee --mode stdout --pull-policy missing --enable-prompts --ask-pass --ask-become-pass -u <REMOTE_USER>
+    ansible-navigator run main.yml --execution-environment-image fedora_ee --mode stdout --pull-policy missing --enable-prompts --ask-pass --ask-become-pass --ask-vault-pass -u <REMOTE_USER>
 
 # Usage
 
@@ -132,7 +138,18 @@ To connect to [MariaDB](https://en.wikipedia.org/wiki/MariaDB) on the remote ser
 
     mariadb -u root -p
 
-Password is stored in [`./ansible/inventories/host_vars/axolotl/003-mariadb.yml`](ansible/inventories/host_vars/axolotl/003-mariadb.yml)
+Database password is stored in [`./ansible/inventories/host_vars/axolotl/003-mariadb-secrets-encrypted.yml`](ansible/inventories/host_vars/axolotl/003-mariadb-secrets-encrypted.yml) but it is encrypted. [Ansible Vault](https://docs.ansible.com/ansible/latest/vault_guide/index.html) was used for encryption, `Vault password` is `axolotl`, to decrypt on the remote server execute:
+
+    cd "${HOME}/ansible/inventories/host_vars/axolotl"
+    cat 003-mariadb-secrets-encrypted.yml # Check that file is encrypted
+    ansible-vault decrypt 003-mariadb-secrets-encrypted.yml
+    cat 003-mariadb-secrets-encrypted.yml
+
+To encrypt them again with new password:
+
+    cat 003-mariadb-secrets-encrypted.yml # Check that file is decrypted
+    ansible-vault encrypt 003-mariadb-secrets-encrypted.yml
+    cat 003-mariadb-secrets-encrypted.yml
 
 After that, to list all databases:
 
