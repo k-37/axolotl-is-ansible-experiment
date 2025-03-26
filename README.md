@@ -118,7 +118,7 @@ Run the playbook inside the `fedora_ee` EE (**NOTICE**: `<REMOTE_USER>` must be 
 
 ## Web server
 
-After executing Ansible playbook on development machine in `sudo vi /etc/hosts` file add:
+After executing Ansible playbook on remote server, on development machine in `sudo vi /etc/hosts` file add:
 
     <IP_ADDRESS_OF_REMOTE_SERVER> wp.example.com
 
