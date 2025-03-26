@@ -25,6 +25,11 @@
           AllowOverride All
     </Directory>
 
+{% if item.proxy_to | default('', true) | trim != '' %}
+    ProxyPass "/" "{{ item.proxy_to }}/"
+    ProxyPassReverse "/" "{{ item.proxy_to }}/"
+{% endif %}
+
     <IfModule mod_dir.c>
         DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
     </IfModule>

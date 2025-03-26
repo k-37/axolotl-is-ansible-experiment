@@ -10,7 +10,11 @@ apache_enabled_modules:
   - rewrite
   - ssl
   - mpm_event
+  - proxy
+  - proxy_balancer
   - proxy_fcgi
+  - proxy_http
+  - lbmethod_byrequests
 
 apache_enabled_configuration_files:
   - php8.2-fpm
@@ -18,3 +22,5 @@ apache_enabled_configuration_files:
 apache_virtual_hosts_https:
   - name: "{{ wordpress_host_name }}"
     document_root_sub_path: "{{ wordpress_document_root_sub_path }}"
+  - name: "{{ hello_world_host_name }}"
+    proxy_to: http://127.0.0.1:3000

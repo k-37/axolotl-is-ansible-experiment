@@ -1,0 +1,13 @@
+[Unit]
+Description=application.js - Hello to the beautiful world
+Documentation=https://{{ hello_world_host_name }}
+After=network.target
+
+[Service]
+Type=simple
+User={{ hello_world_system_user }}
+ExecStart=/usr/bin/node /opt/hello_world/application.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

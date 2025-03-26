@@ -18,3 +18,8 @@
   hosts: axolotl
   roles:
     - wordpress
+
+- name: Hello World with Node.js
+  hosts: axolotl
+  roles:
+    - hello_world
