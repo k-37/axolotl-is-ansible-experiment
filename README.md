@@ -126,12 +126,13 @@ Run the playbook inside the `fedora_ee` EE (**NOTICE**: `<REMOTE_USER>` must be 
 
 After executing Ansible playbook on remote server, on development machine in `sudo vi /etc/hosts` file add:
 
-    <IP_ADDRESS_OF_REMOTE_SERVER> wp.example.com hello.example.com
+    <IP_ADDRESS_OF_REMOTE_SERVER> wp.example.com hello.example.com bookstack.example.com
 
 In [Mozilla Firefox](https://www.mozilla.org/firefox/) open URLs:
 
-- [https://wp.example.com/](https://wp.example.com/) which hosts local instance of [WordPress](https://en.wikipedia.org/wiki/WordPress).
+- [https://wp.example.com/](https://wp.example.com/) which has self-hosted instance of [WordPress](https://en.wikipedia.org/wiki/WordPress).
 - [https://hello.example.com/](https://hello.example.com/) which hosts simple Hello World app made with [Node.js](https://en.wikipedia.org/wiki/Node.js).
+- [https://bookstack.example.com/](https://bookstack.example.com/) which has self-hosted instance of [BookStack](https://www.bookstackapp.com/). Default username is `admin@admin.com`, and default password is `password`.
 
 > [!NOTE]
 > Warning for self-signed certificate is expected.

@@ -1,4 +1,10 @@
 ---
+apt_packages_required_for_usage_over_https:
+  - apt-transport-https
+  - ca-certificates
+  - gnupg
+  - curl
+
 apt_package_ufw: ufw
 apt_package_nodejs: nodejs
 
@@ -21,3 +27,10 @@ apt_packages_apache_modules:
 apt_package_mariadb: mariadb-server
 apt_packages_mariadb_extra:
   - python3-pymysql
+
+apt_packages_docker:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin

@@ -1,0 +1,41 @@
+---
+- name: Configure Docker
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: docker
+
+- name: Create configuration directory for the application
+  ansible.builtin.file:
+    path: /etc/containers-compose/bookstack/
+    state: directory
+    owner: root
+    group: root
+    mode: 0750
+
+- name: Set docker-compose.yml
+  ansible.builtin.template:
+    src: templates/docker-compose.yml.j2
+    dest: /etc/containers-compose/bookstack/docker-compose.yml
+
+- name: Install systemd unit
+  ansible.builtin.copy:
+    src: bookstack.service
+    dest: /etc/systemd/system/bookstack.service
+
+- name: Enable and start service
+  ansible.builtin.service:
+    name: bookstack
+    enabled: true
+    state: started
+
+- name: Allow '{{ bookstack_system_user }}' to control systemd service
+  community.general.sudoers:
+    name: "{{ bookstack_system_user }}-bookstack-service"
+    user: "{{ bookstack_system_user }}"
+    commands:
+      - /bin/systemctl start bookstack
+      - /bin/systemctl stop bookstack
+      - /bin/systemctl restart bookstack
+      - /bin/systemctl reload bookstack
+      - /bin/systemctl status bookstack
+    nopassword: true

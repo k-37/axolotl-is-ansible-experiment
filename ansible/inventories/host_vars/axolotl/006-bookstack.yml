@@ -1,0 +1,5 @@
+---
+bookstack_system_user: user3
+bookstack_host_name: bookstack.example.com
+bookstack_app_url: "https://{{ bookstack_host_name }}"
+bookstack_mysql_db: "bookstack"

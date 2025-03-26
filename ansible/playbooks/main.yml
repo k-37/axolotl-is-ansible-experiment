@@ -23,3 +23,8 @@
   hosts: axolotl
   roles:
     - hello_world
+
+- name: BookStack
+  hosts: axolotl
+  roles:
+    - bookstack

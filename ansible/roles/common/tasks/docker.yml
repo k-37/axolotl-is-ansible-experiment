@@ -1,0 +1,42 @@
+---
+- name: Get current OS ID
+  ansible.builtin.shell: grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"'
+  register: current_os_id
+
+- name: Get OS version codename
+  ansible.builtin.shell: grep -oP '(?<=^VERSION_CODENAME=).+' /etc/os-release | tr -d '"'
+  register: os_version_codename
+
+- name: Get machine architecture
+  ansible.builtin.shell: dpkg --print-architecture
+  register: machine_architecture
+
+- name: Add Docker GPG APT Key
+  ansible.builtin.shell: curl -fsSL https://download.docker.com/linux/{{ current_os_id.stdout }}/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  args:
+    creates: /usr/share/keyrings/docker-archive-keyring.gpg
+
+- name: Add Docker Repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch={{ machine_architecture.stdout }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/{{ current_os_id.stdout }} {{ os_version_codename.stdout }} stable
+    state: present
+
+- name: Install Docker packages with APT
+  ansible.builtin.apt:
+    name: "{{ apt_packages_docker }}"
+    update_cache: true
+    state: present
+
+- name: Setup group docker
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add Ansible user to group docker
+  ansible.builtin.user:
+    name: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+    groups: docker
+    append: true
+
+- name: Reset SSH connection
+  meta: reset_connection
