@@ -4,6 +4,15 @@ This repository is used to practice [Ansible](https://en.wikipedia.org/wiki/Ansi
 
 ᓬ(ᵔ⤙ᵔ๑)ᕒ
 
+## Highlights
+
+- Linux, Apache, MariaDB and PHP ([LAMP stack](https://en.wikipedia.org/wiki/LAMP_(software_bundle))) optimized for performance and security.
+- [WordPress](https://en.wikipedia.org/wiki/WordPress) at [commit](https://github.com/k-37/axolotl-is-ansible-experiment/commit/8efe42eeabb0974851dbadd5076930518af026e0).
+- Simple `Hello World` app made with [Node.js](https://en.wikipedia.org/wiki/Node.js) at [commit](https://github.com/k-37/axolotl-is-ansible-experiment/commit/1c85bf74c7edb0fa9f504cbfda659624e5602ef1).
+- [BookStack](https://www.bookstackapp.com/) installed with [Docker Compose](https://docs.docker.com/compose/) with [MySQL](https://en.wikipedia.org/wiki/MySQL) database in container at [commit](https://github.com/k-37/axolotl-is-ansible-experiment/commit/e6d8eb660ab8c0aae5721f2f23f973dbd1d6a7da).
+- Bakup for databases at [commit](https://github.com/k-37/axolotl-is-ansible-experiment/commit/3502ef54443f5247b3ffd0a95c36484440762247).
+- [Let's Encrypt](https://en.wikipedia.org/wiki/Let%27s_Encrypt) certificates with [Certbot](https://certbot.eff.org/pages/about) at [commit](https://github.com/k-37/axolotl-is-ansible-experiment/commit/ba97eef3d20988aa700fc8fc78071324b548c753).
+
 # Requirements
 
 - Server with minimal installation of [Debian 12](https://www.debian.org/) and with [SSH enabled](https://phoenixnap.com/kb/how-to-enable-ssh-on-debian). In this project we will refer to it as **remote server**, it will be used as both Ansible control node and managed host.
