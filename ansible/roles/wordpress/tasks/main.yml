@@ -34,3 +34,34 @@
     owner: "{{ apache_owner }}"
     group: "{{ wordpress_system_group }}"
     mode: ug=rwX,o=
+
+- name: Create backup directory
+  ansible.builtin.file:
+    path: /backup/wordpress
+    state: directory
+    owner: root
+    group: root
+    mode: 0750
+
+- name: Create cron to make backup
+  ansible.builtin.cron:
+    name: Backup WordPress database
+    state: present
+    minute: '*/10'
+    hour: '*'
+    day: '*'
+    month: '*'
+    weekday: '*'
+    job: "mariadb-dump -u '{{ secret_wordpress_mariadb_user }}' -p'{{ secret_wordpress_mariadb_password }}' {{ wordpress_mariadb_db }} | zip > /backup/wordpress/$(date +\\%Y\\%m\\%d_\\%H\\%M\\%S).zip"
+
+# `head -n -6` defines that we want to keep 6 most recent backups.
+- name: Create cron to delete obsolete backups
+  ansible.builtin.cron:
+    name: Delete obsolete WordPress database backups
+    state: present
+    minute: '*'
+    hour: '*/1'
+    day: '*'
+    month: '*'
+    weekday: '*'
+    job: "find /backup/wordpress/*.zip -maxdepth 1 -type f -printf '\\%Ts\\t\\%p\\n' | sort -n | head -n -6 | cut -f 2- | xargs rm -rf"

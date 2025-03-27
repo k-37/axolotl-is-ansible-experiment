@@ -5,6 +5,10 @@ apt_packages_required_for_usage_over_https:
   - gnupg
   - curl
 
+apt_packages_extra:
+  - zip
+  - unzip
+
 apt_package_ufw: ufw
 apt_package_nodejs: nodejs
 

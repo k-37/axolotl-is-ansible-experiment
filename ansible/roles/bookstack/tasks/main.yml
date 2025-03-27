@@ -39,3 +39,34 @@
       - /bin/systemctl reload bookstack
       - /bin/systemctl status bookstack
     nopassword: true
+
+- name: Create backup directory
+  ansible.builtin.file:
+    path: /backup/bookstack
+    state: directory
+    owner: root
+    group: root
+    mode: 0750
+
+- name: Create cron to make backup
+  ansible.builtin.cron:
+    name: Backup BookStack database
+    state: present
+    minute: '*/10'
+    hour: '*'
+    day: '*'
+    month: '*'
+    weekday: '*'
+    job: "(docker exec bookstack-mysql-1 mysqldump -u '{{ secret_bookstack_mysql_user }}' -p'{{ secret_bookstack_mysql_password }}' {{ bookstack_mysql_db }}) | zip > /backup/bookstack/$(date +\\%Y\\%m\\%d_\\%H\\%M\\%S).zip"
+
+# `head -n -6` defines that we want to keep 6 most recent backups.
+- name: Create cron to delete obsolete backups
+  ansible.builtin.cron:
+    name: Delete obsolete BookStack database backups
+    state: present
+    minute: '*'
+    hour: '*/1'
+    day: '*'
+    month: '*'
+    weekday: '*'
+    job: "find /backup/bookstack/*.zip -maxdepth 1 -type f -printf '\\%Ts\\t\\%p\\n' | sort -n | head -n -6 | cut -f 2- | xargs rm -rf"

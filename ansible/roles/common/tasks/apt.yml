@@ -29,3 +29,9 @@
     name: "{{ apt_packages_required_for_usage_over_https }}"
     update_cache: true
     state: present
+
+- name: Install extra APT packages
+  ansible.builtin.apt:
+    name: "{{ apt_packages_extra }}"
+    update_cache: true
+    state: present
