@@ -22,7 +22,10 @@ apache_enabled_configuration_files:
 apache_virtual_hosts_https:
   - name: "{{ wordpress_host_name }}"
     document_root_sub_path: "{{ wordpress_document_root_sub_path }}"
+    use_letsencrypt_certificate: "{{ use_letsencrypt_certificates }}"
   - name: "{{ hello_world_host_name }}"
     proxy_to: http://127.0.0.1:3000
+    use_letsencrypt_certificate: "{{ use_letsencrypt_certificates }}"
   - name: "{{ bookstack_host_name }}"
     proxy_to: http://127.0.0.1:8080
+    use_letsencrypt_certificate: "{{ use_letsencrypt_certificates }}"

@@ -36,6 +36,7 @@ On the remote server execute command:
 Install dependencies:
 
     ansible-galaxy collection install -r requirements.yml
+    ansible-galaxy role install -r requirements.yml
 
 > [!NOTE]
 > On the next steps, after entering your `SSH password` and `BECOME password` for the remote server, you will be asked for `Vault password`, it is `axolotl`.
@@ -159,6 +160,10 @@ To encrypt them again with new password:
 After that, to list all databases:
 
     SHOW DATABASES;
+
+## Let's Encrypt certificates with Certbot
+
+If your remote server has public domain you can setup [Let's Encrypt](https://en.wikipedia.org/wiki/Let%27s_Encrypt) certificates with [Certbot](https://certbot.eff.org/pages/about). In [`./ansible/inventories/host_vars/axolotl/007-certbot.yml`](ansible/inventories/host_vars/axolotl/007-certbot.yml) set variable `use_letsencrypt_certificates` to `true` and configure other options to match you server and domain configuration. At the end just execute this Ansible project again.
 
 # Documentation
 

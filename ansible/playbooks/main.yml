@@ -3,6 +3,12 @@
   roles:
     - common
 
+- name: Let's Encrypt certificates with Certbot
+  hosts: axolotl
+  roles:
+    - role: geerlingguy.certbot
+      when: use_letsencrypt_certificates == true
+
 - name: PHP and Apache
   hosts: axolotl
   roles:

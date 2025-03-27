@@ -10,8 +10,13 @@
 
     SSLEngine on
 
+{% if item.use_letsencrypt_certificate == true %}
+    SSLCertificateFile      /etc/letsencrypt/live/{{ item.name }}/fullchain.pem
+    SSLCertificateKeyFile   /etc/letsencrypt/live/{{ item.name }}/privkey.pem
+{% else %}
     SSLCertificateFile      /etc/ssl/certs/ssl-cert-snakeoil.pem
     SSLCertificateKeyFile   /etc/ssl/private/ssl-cert-snakeoil.key
+{% endif %}
 
     <FilesMatch "\.(?:cgi|shtml|phtml|php)$">
         SSLOptions +StdEnvVars
